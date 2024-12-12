@@ -171,3 +171,37 @@ subnet 10.2.1.0 netmask 255.255.255.0 {
 ## Wireshark
 
 ##etape3
+Affichez la table ARP de router.tp2.efrei
+
+ ip neighbor show
+10.2.1.1 dev eth1 lladdr 00:50:79:66:68:00 STALE
+192.168.122.1 dev eth0 lladdr 52:54:00:23:04:c2 STALE
+10.2.1.253 dev eth1 lladdr 0c:f8:d7:6a:00:00 STALE
+
+ Capturez l'échange ARP avec Wireshark
+
+
+ Envoyer une trame ARP arbitraire
+
+ sudo apt install arping
+
+ sudo arping 10.2.1.10
+ARPING 10.2.1.10
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=0 time=7.364 msec
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=1 time=20.459 msec
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=2 time=27.459 msec
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=3 time=53.700 msec
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=4 time=7.344 msec
+58 bytes from 00:50:79:66:68:00 (10.2.1.10): index=5 time=17.578 msec
+^C
+--- 10.2.1.10 statistics ---
+3 packets transmitted, 6 packets received,   0% unanswered (3 extra)
+rtt min/avg/max/std-dev = 7.344/22.317/53.700/15.732 ms
+
+PC1> show arp
+
+0c:e6:03:92:00:00  10.2.1.11 expires in 79 seconds
+
+Mettre en place un ARP MITM
+
+debian@debian:~$ sudo apt install dsniff
