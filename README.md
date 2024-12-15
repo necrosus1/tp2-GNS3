@@ -200,7 +200,7 @@ sudo dnf -y install dhcp-server
 sudo vi /etc/dhcp/dhcpd.conf
 ```
 
-**Configuration du fichier `dhcpd.conf` :**
+
 
 ```
 # this DHCP server to be declared valid
@@ -231,7 +231,6 @@ DDORA IP 10.2.1.10/24 GW 10.2.1.254
 
 ### BONUS
 
-**Configuration avancée du fichier `dhcpd.conf` :**
 
 ```
 # this DHCP server to be declared valid
@@ -248,10 +247,11 @@ subnet 10.2.1.0 netmask 255.255.255.0 {
     option domain-name-servers 1.1.1.1;
 }
 ```
+### wireshark 
+dhcp.pcapng
 
 ## etape 3
 
-### Wireshark
 
 #### Affichez la table ARP de router
 
